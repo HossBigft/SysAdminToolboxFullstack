@@ -1,0 +1,9 @@
+[submodule "sysAdminToolboxBackend"]
+	path = sysAdminToolboxBackend
+	url = git@github.com:HossBigft/sysAdminToolboxBackend.git
+[submodule "backend"]
+	path = backend
+	url = git@github.com:HossBigft/sysAdminToolboxBackend.git
+[submodule "frontend"]
+	path = frontend
+	url = git@github.com:unioan/hostboard.git
