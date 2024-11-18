@@ -58,6 +58,9 @@ services:
     restart: "no"
     ports:
       - "8000:8000"
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
     build:
       context: ./backend
     # command: sleep infinity  # Infinite loop to keep container alive doing nothing
@@ -79,6 +82,8 @@ services:
     # TODO: remove once coverage is done locally
     volumes:
       - ./backend/htmlcov:/app/htmlcov
+      - /tmp/ssh-agent:/tmp/ssh-agent 
+      - ./backend/ssh_config/:/root/.ssh/:ro
     environment:
       SMTP_HOST: "mailcatcher"
       SMTP_PORT: "1025"
