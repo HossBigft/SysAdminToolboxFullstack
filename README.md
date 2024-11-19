@@ -17,4 +17,12 @@ git add .
 git diff --submodule HEAD| git commit -F-
 ```
 
+To run dev version
+```
+#once per session to start ssh agent and add all keys to it
+source ./scripts/start_ssh_agent.sh
+#then start containers
+docker compose watch
+```
+
 Based on [fastapi fullstack template](https://github.com/fastapi/full-stack-fastapi-template)
