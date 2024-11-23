@@ -102,7 +102,14 @@ services:
       args:
         - VITE_API_URL=http://localhost:8000
         - NODE_ENV=development
-
+    develop:
+      watch:
+        - path: ./frontend
+          action: rebuild
+          target: .
+          ignore:
+            - ./frontend/.env
+            - .venv
   # playwright:
   #   build:
   #     context: ./frontend
