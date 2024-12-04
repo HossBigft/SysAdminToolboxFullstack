@@ -6,4 +6,4 @@
 	url = git@github.com:HossBigft/sysAdminToolboxBackend.git
 [submodule "frontend"]
 	path = frontend
-	url = git@github.com:unioan/hostboard.git
+	url = git@github.com:HossBigft/frontend.git
