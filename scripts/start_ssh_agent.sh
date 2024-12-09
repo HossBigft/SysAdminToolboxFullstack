@@ -1,2 +1,6 @@
 #!/bin/bash
-eval $(ssh-agent -s) && grep -slR "PRIVATE" ~/.ssh/ | xargs ssh-add &> /dev/null
+for possiblekey in ${HOME}/.ssh/id_*; do
+    if grep -q PRIVATE "$possiblekey"; then
+        ssh-add "$possiblekey"
+    fi
+done
