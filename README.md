@@ -25,4 +25,7 @@ source ./scripts/start_ssh_agent.sh
 docker compose watch
 ```
 
+To run version that uses docker containers to mimic plesk&ns servers
+`bash ./scripts/start_local_stack.sh`
+
 Based on [fastapi fullstack template](https://github.com/fastapi/full-stack-fastapi-template)
