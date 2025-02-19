@@ -1,7 +1,7 @@
 To clone this repo
 ```
-git clone --recurse-submodules LINK
-cd repo
+git clone --recurse-submodules git@github.com:HossBigft/SysAdminToolboxFullstack.git
+cd SysAdminToolboxFullstack
 git submodule update --rebase --remote
 ```
 
