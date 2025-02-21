@@ -9,7 +9,7 @@ To run dev build execute in root repo dir
 `docker compose watch`
 
 To update all submodules execute in root repo dir
-`git submodule update --rebase --remote`
+`git submodule foreach --recursive git pull`
 
 To add all changes and generate commit message from submodule commits
 ```
