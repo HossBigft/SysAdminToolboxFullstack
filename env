@@ -38,7 +38,7 @@ POSTGRES_PORT=5432
 POSTGRES_DB=app
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=changethis
-
+TZ=GMT
 SENTRY_DSN=
 
 # Configure these with your own Docker registry images
