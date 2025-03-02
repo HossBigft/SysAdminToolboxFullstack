@@ -99,17 +99,14 @@ services:
       - "5173:80"
     build:
       context: ./frontend
+      target: build-stage
       args:
         - VITE_API_URL=http://localhost:8000
         - NODE_ENV=development
-    develop:
-      watch:
-        - path: ./frontend
-          action: rebuild
-          target: .
-          ignore:
-            - ./frontend/.env
-            - .venv
+    command: ["sh", "-c", "CHOKIDAR_USEPOLLING=1 npm run dev -- --host 0.0.0.0 --port 80"]
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
   # playwright:
   #   build:
   #     context: ./frontend
