@@ -101,8 +101,12 @@ services:
       context: ./frontend
       target: build-stage
       args:
-        - VITE_API_URL=http://localhost:8000
+        - VITE_API_URL=${BACKEND_HOST?Variable not set}
         - NODE_ENV=development
+    env_file:
+      - .env
+    environment:
+       - VITE_API_URL=${BACKEND_HOST?Variable not set}
     command: ["sh", "-c", "CHOKIDAR_USEPOLLING=1 npm run dev -- --host 0.0.0.0 --port 80"]
     volumes:
       - ./frontend:/app
