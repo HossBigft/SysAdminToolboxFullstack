@@ -64,7 +64,7 @@ services:
     build:
       context: ./backend
     # command: sleep infinity  # Infinite loop to keep container alive doing nothing
-    command: sh -c "mkdir -p ~/.ssh && cp -r /root/ssh_config/* ~/.ssh/ && chown -R $(id -u):$(id -g) /root/.ssh/* && fastapi run --reload 'app/main.py'"
+    command: sh -c "python app/create_ssh_config.py && fastapi run --reload 'app/main.py'"
     develop:
       watch:
         - path: ./backend
@@ -79,7 +79,7 @@ services:
     volumes:
       - ./backend/htmlcov:/app/htmlcov
       - /tmp/ssh-agent:/tmp/ssh-agent 
-      - ./backend/ssh_config/:/root/ssh_config:ro
+      # - ./backend/ssh_config/:/root/ssh_config:ro
       - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
       SMTP_HOST: "mailcatcher"
