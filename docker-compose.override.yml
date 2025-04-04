@@ -79,7 +79,6 @@ services:
     volumes:
       - ./backend/htmlcov:/app/htmlcov
       - /tmp/ssh-agent:/tmp/ssh-agent 
-      # - ./backend/ssh_config/:/root/ssh_config:ro
       - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
     environment:
       SMTP_HOST: "mailcatcher"
