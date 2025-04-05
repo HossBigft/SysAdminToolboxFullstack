@@ -7,8 +7,10 @@ DOMAIN=localhost
 
 # Used by the backend to generate links in emails to the frontend
 FRONTEND_HOST=http://localhost:5173
-# In staging and production, set this env var to the frontend host, e.g.
-# FRONTEND_HOST=https://dashboard.example.com
+
+# Used by the frontend for api calls
+BACKEND_HOST=http://localhost:8000
+
 
 # Environment: local, staging, production
 ENVIRONMENT=local
@@ -22,12 +24,14 @@ BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,h
 SECRET_KEY=changethis
 FIRST_SUPERUSER=admin@example.com
 FIRST_SUPERUSER_PASSWORD=changethis
-
-#backend SSH
-SSH_USER=
-PLESK_SERVERS=
-DNS_SLAVE_SERVERS=
-HOSTS=
+# used for ssh connection, provided ssh key allow access for this user
+SSH_USER=changethis
+# Plesk servers that will be used for search and Plesk related operations via ssh
+PLESK_SERVERS='{"plesk.example.com":["174.64.7.4"]}'
+# Server for DNS zone master lookups via ssh
+DNS_SLAVE_SERVERS='{"ns.example.com":["174.64.7.4"]}'
+# Additional hosts for backend.
+HOSTS='{"example.com":["174.64.7.1"]}'
 
 # Emails
 SMTP_HOST=
@@ -44,6 +48,7 @@ POSTGRES_PORT=5432
 POSTGRES_DB=app
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=changethis
+# For setting up time in postgres
 TZ=Asia/Yekaterinburg
 SENTRY_DSN=
 
