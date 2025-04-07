@@ -2,7 +2,7 @@ To clone this repo
 ```
 git clone --recurse-submodules git@github.com:HossBigft/SysAdminToolboxFullstack.git
 cd SysAdminToolboxFullstack
-git submodule update --rebase --remote
+git submodule update --init --recursive
 ```
 
 To run dev build execute in root repo dir
