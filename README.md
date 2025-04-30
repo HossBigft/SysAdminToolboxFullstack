@@ -1,6 +1,6 @@
 To clone this repo
 ```
-git clone --recurse-submodules git@github.com:HossBigft/SysAdminToolboxFullstack.git
+git clone --recurse-submodules https://github.com/HossBigft/SysAdminToolboxFullstack.git
 cd SysAdminToolboxFullstack
 git submodule update --init --recursive
 ```
