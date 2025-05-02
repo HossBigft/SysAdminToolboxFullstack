@@ -40,6 +40,9 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       # Mount the volume to store the certificates
       - traefik-public-certificates:/certificates
+      ## use local time for logs
+      - "/etc/timezone:/etc/timezone:ro"
+      - "/etc/localtime:/etc/localtime:ro"
     command:
       # Enable Docker in Traefik, so that it reads labels from Docker services
       - --providers.docker
@@ -61,6 +64,9 @@ services:
       - --log
       # Enable the Dashboard and API
       - --api
+      - --accesslog.fields.names.StartUTC=drop
+    env_file:
+      - .env 
     networks:
       # Use the public network created to be shared between Traefik and
       # any other service that needs to be publicly available with HTTPS
