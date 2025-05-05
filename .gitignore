@@ -8,3 +8,4 @@ node_modules/
 .gitsecret/keys/random_seed
 !*.secret
 docker-stack.yml
+/ssh_agent/ssh_key
