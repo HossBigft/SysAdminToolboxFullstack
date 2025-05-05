@@ -25,7 +25,7 @@ generate_password() {
 setup_traefik() {
     log INFO "Setting up Traefik reverse proxy in $TRAEFIK_DIR"
     mkdir -p "$TRAEFIK_DIR"
-    ln -sf "$SCRIPT_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR/docker-compose.yml"
+    ln -sf "$STACK_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR/docker-compose.yml"
     touch "$TRAEFIK_DIR/.env"
 
     PASSWORD=$(generate_password 15)
