@@ -1,55 +1,69 @@
-#! /usr/bin/env sh
+#!/usr/bin/env sh
 
-# Exit in case of error
+# Exit on error
 set -e
 
 SCRIPT_PATH="$0"
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
+log() {
+    level="$1"
+    shift
+    echo "[$level] $*"
+}
+
 generate_password() {
     length=$1
-    # Define the character set for the password
     char_set="A-Za-z0-9!@#$%^&*()-_=+[]{}|;:,.<>?"
-
-    # Generate a random password using the specified length
     tr -dc "$char_set" </dev/urandom | head -c "$length"
     echo
 }
 
-setup_traefik(){
-    mkdir -p "../$PROJECT_ROOT/traefik"
+setup_traefik() {
+    log INFO "Setting up Traefik reverse proxy..."
+    mkdir -p "$PROJECT_ROOT/traefik"
 
-    ln docker-compose.traefik.yml "../$PROJECT_ROOT/traefik/docker-compose.yml"
-    touch "../$PROJECT_ROOT/traefik/.env"
+    ln -sf "$SCRIPT_DIR/docker-compose.traefik.yml" "$PROJECT_ROOT/traefik/docker-compose.yml"
+    touch "$PROJECT_ROOT/traefik/.env"
+
     PASSWORD=$(generate_password 15)
-    printf "Traefik dashboard password is %s\n" "$PASSWORD"
+    log INFO "Generated Traefik dashboard password: $PASSWORD"
+
     HASHED_PASSWORD=$(openssl passwd -apr1 "$PASSWORD")
 
-        cat > "$PROJECT_ROOT/traefik/.env" <<EOF
+    cat > "$PROJECT_ROOT/traefik/.env" <<EOF
 USERNAME=admin
 HASHED_PASSWORD=$HASHED_PASSWORD
 DOMAIN=$DOMAIN
 EMAIL=admin@$DOMAIN
 EOF
+
+    log INFO "Traefik .env file created"
 }
 
-create_env(){
-cp ./env ./.env
-printf ".env is created\n"
+create_env() {
+    log INFO "Creating .env file..."
+    cp ./env ./.env
+    log INFO ".env file created"
 }
 
-generate_backend_ssh_key(){
-mkdir -p ./ssh_agent/ssh_key
+generate_backend_ssh_key() {
+    log INFO "Generating backend SSH key..."
+    mkdir -p ./ssh_agent/ssh_key
 
-KEY_USER=$(grep STACK_NAME env | cut -d'=' -f2)
+    KEY_USER=$(grep STACK_NAME env | cut -d'=' -f2)
 
-ssh-keygen -t ed25519 -C "$KEY_USER" -f ./ssh_agent/ssh_key/priv_ed25519.key  -N ''
-printf "Generated new ssh key ./ssh_agent/ssh_key/priv_ed25519.key\n"
+    ssh-keygen -t ed25519 -C "$KEY_USER" -f ./ssh_agent/ssh_key/priv_ed25519.key -N ''
+    log INFO "SSH key generated at ./ssh_agent/ssh_key/priv_ed25519.key"
 }
 
-main(){
+main() {
+    log INFO "Initializing environment..."
     create_env
     setup_traefik
     generate_backend_ssh_key
+    log INFO "Initialization complete."
 }
+
+main
