@@ -11,7 +11,7 @@ load_dotenv
 DOMAIN=${DOMAIN?Variable not set} \
 STACK_NAME=${STACK_NAME?Variable not set} \
 TAG=${TAG=-latest} \
-docker-compose \
+docker compose \
     -f docker-compose.yml \
     config > docker-stack.yml
 
