@@ -3,6 +3,8 @@
 # Exit on error
 set -e
 
+. "$(dirname "$0")/load_dotenv.sh"
+
 SCRIPT_PATH="$0"
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
 STACK_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
@@ -41,12 +43,6 @@ EOF
     log INFO "Traefik .env file created at $TRAEFIK_DIR/.env"
 }
 
-create_env() {
-    log INFO "Creating .env file..."
-    cp -v ./env ./.env
-    log INFO ".env file created"
-}
-
 generate_backend_ssh_key() {
     log INFO "Generating backend SSH key..."
     mkdir -p ./ssh_agent/ssh_key
@@ -58,10 +54,13 @@ generate_backend_ssh_key() {
 }
 
 main() {
+    loadenv
+
     log INFO "Initializing environment..."
-    create_env
+
     setup_traefik
     generate_backend_ssh_key
+    
     log INFO "Initialization complete."
 }
 
