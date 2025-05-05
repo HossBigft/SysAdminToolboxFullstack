@@ -18,7 +18,6 @@ ENVIRONMENT=local
 
 
 PROJECT_NAME="SysAdminToolbox"
-STACK_NAME=sys-admin-toolbox 
 
 # Backend
 BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,http://localhost.tiangolo.com"
