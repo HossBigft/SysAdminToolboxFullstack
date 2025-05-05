@@ -6,7 +6,7 @@ set -e
 SCRIPT_PATH="$0"
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
 PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TRAEFIK_DIR=../$PROJECT_ROOT/traefik
+TRAEFIK_DIR="../$PROJECT_ROOT/traefik"
 log() {
     level="$1"
     shift
@@ -21,7 +21,7 @@ generate_password() {
 }
 
 setup_traefik() {
-    log INFO "Setting up Traefik reverse proxy..."
+    log INFO "Setting up Traefik reverse proxy in $TRAEFIK_DIR"
     mkdir -p "$TRAEFIK_DIR"
     ln -sf "$SCRIPT_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR"
     touch "$PROJECT_ROOT/traefik/.env"
