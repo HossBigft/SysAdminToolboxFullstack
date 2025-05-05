@@ -44,6 +44,23 @@ services:
       - traefik-public
       - default
 
+  ssh-agent:
+    build: ./ssh_agent
+    environment:
+      SSH_AUTH_SOCK: /ssh/agent.sock
+    volumes:
+      - ssh-socket:/ssh
+      - ./ssh_agent/ssh_key/priv_ed25519.key:/priv_ed25519.key:ro   # Mount your SSH private key as read-only
+    entrypoint: >
+      sh -c "rm -f /ssh/agent.sock && ssh-agent -a /ssh/agent.sock &&
+             ssh-add /priv_ed25519.key &&
+             tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "ssh-add", "-l"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
   db:
     restart: "no"
     ports:
@@ -78,14 +95,15 @@ services:
     # TODO: remove once coverage is done locally
     volumes:
       - ./backend/htmlcov:/app/htmlcov
-      - /tmp/ssh-agent:/tmp/ssh-agent 
-      - $SSH_AUTH_SOCK:$SSH_AUTH_SOCK
+      - ssh-socket:/ssh
     environment:
       SMTP_HOST: "mailcatcher"
       SMTP_PORT: "1025"
       SMTP_TLS: "false"
       EMAILS_FROM_EMAIL: "noreply@example.com"
-      SSH_AUTH_SOCK: $SSH_AUTH_SOCK 
+      SSH_AUTH_SOCK: /ssh/agent.sock
+
+
   mailcatcher:
     image: schickling/mailcatcher
     ports:
