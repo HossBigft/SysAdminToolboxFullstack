@@ -77,6 +77,23 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
 
+  ssh-agent:
+    build: ./ssh_agent
+    environment:
+      SSH_AUTH_SOCK: /ssh/agent.sock
+    volumes:
+      - ssh-socket:/ssh
+      - ./ssh_agent/ssh_key/priv_ed25519.key:/priv_ed25519.key:ro   # Mount your SSH private key as read-only
+    entrypoint: >
+      sh -c "rm -f /ssh/agent.sock && ssh-agent -a /ssh/agent.sock &&
+             ssh-add /priv_ed25519.key &&
+             tail -f /dev/null"
+    healthcheck:
+      test: ["CMD", "ssh-add", "-l"]
+      interval: 5s
+      timeout: 3s
+      retries: 3
+
   backend:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
     restart: always
@@ -112,6 +129,9 @@ services:
       - POSTGRES_USER=${POSTGRES_USER?Variable not set}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
+      - SSH_AUTH_SOCK=/ssh/agent.sock
+    volumes:
+      - ssh-socket:/ssh
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check/"]
