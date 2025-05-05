@@ -4,7 +4,8 @@
 DOMAIN=localhost
 # To test the local Traefik config
 # DOMAIN=localhost.tiangolo.com
-FRONTEND_DOMAIN=
+
+FRONTEND_SUBDOMAIN=sys-admin-toolbox 
 
 # Used by the backend to generate links in emails to the frontend
 FRONTEND_HOST=http://localhost:5173
