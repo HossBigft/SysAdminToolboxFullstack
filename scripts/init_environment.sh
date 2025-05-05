@@ -5,8 +5,8 @@ set -e
 
 SCRIPT_PATH="$0"
 SCRIPT_DIR="$(cd "$(dirname "$SCRIPT_PATH")" && pwd)"
-PROJECT_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-TRAEFIK_DIR="../$PROJECT_ROOT/traefik"
+STACK_DIR="$(cd "$SCRIPT_DIR/.." && pwd)"
+TRAEFIK_DIR="$(cd "$STACK_DIR/.." && pwd)/traefik"
 log() {
     level="$1"
     shift
@@ -23,27 +23,27 @@ generate_password() {
 setup_traefik() {
     log INFO "Setting up Traefik reverse proxy in $TRAEFIK_DIR"
     mkdir -p "$TRAEFIK_DIR"
-    ln -sf "$SCRIPT_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR"
-    touch "$PROJECT_ROOT/traefik/.env"
+    ln -sf "$SCRIPT_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR/docker-compose.yml"
+    touch "$TRAEFIK_DIR/.env"
 
     PASSWORD=$(generate_password 15)
     log INFO "Generated Traefik dashboard password: $PASSWORD"
 
     HASHED_PASSWORD=$(openssl passwd -apr1 "$PASSWORD")
 
-    cat > "$PROJECT_ROOT/traefik/.env" <<EOF
+    cat > "$TRAEFIK_DIR/.env" <<EOF
 USERNAME=admin
 HASHED_PASSWORD=$HASHED_PASSWORD
 DOMAIN=$DOMAIN
 EMAIL=admin@$DOMAIN
 EOF
 
-    log INFO "Traefik .env file created"
+    log INFO "Traefik .env file created at $TRAEFIK_DIR/.env"
 }
 
 create_env() {
     log INFO "Creating .env file..."
-    cp ./env ./.env
+    cp -v ./env ./.env
     log INFO ".env file created"
 }
 
