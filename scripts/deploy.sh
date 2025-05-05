@@ -8,13 +8,5 @@ set -e
 load_dotenv
 
 # Check required variables
-DOMAIN=${DOMAIN?Variable not set} \
 STACK_NAME=${STACK_NAME?Variable not set} \
-TAG=${TAG=-latest} \
-docker compose \
-    -f docker-compose.yml \
-    config > docker-stack.yml
-
-docker-auto-labels docker-stack.yml
-
-docker stack deploy -c docker-stack.yml --with-registry-auth "${STACK_NAME?Variable not set}"
+docker compose  -f docker-compose.yml  -p "$STACK_NAME" up -d
