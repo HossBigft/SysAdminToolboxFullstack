@@ -54,13 +54,13 @@ generate_backend_ssh_key() {
 }
 
 main() {
-    loadenv
+    load_dotenv
 
     log INFO "Initializing environment..."
 
     setup_traefik
     generate_backend_ssh_key
-    
+
     log INFO "Initialization complete."
 }
 
