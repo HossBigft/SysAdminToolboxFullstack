@@ -1,8 +1,6 @@
 To clone this repo
-```
-git clone --recurse-submodules https://github.com/HossBigft/SysAdminToolboxFullstack.git
-cd SysAdminToolboxFullstack
-git submodule update --init --recursive
+```sh
+git clone --recurse-submodules https://github.com/HossBigft/SysAdminToolboxFullstack.git && cd $(ls -d */ | head -n 1) && git submodule update --init --recursive
 ```
 
 To run dev build execute in root repo dir
@@ -27,5 +25,11 @@ docker compose watch
 
 To run version that uses docker containers to mimic plesk&ns servers
 `bash ./scripts/start_local_stack.sh`
+
+Oneliner to deploy project, you need to run it after setting all values in `.env`
+```sh
+sh scripts/init_environment.sh && sh scripts/deploy.sh
+```
+
 
 Based on [fastapi fullstack template](https://github.com/fastapi/full-stack-fastapi-template)
