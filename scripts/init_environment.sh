@@ -53,12 +53,38 @@ generate_backend_ssh_key() {
     log INFO "SSH key generated at ./ssh_agent/ssh_key/priv_ed25519.key"
 }
 
+wait_for_traefik_dashboard() {
+    dashboard_url="https://traefik.${DOMAIN}"
+
+    log INFO "Waiting for Traefik dashboard at $dashboard_url..."
+
+    i=0
+    while [ "$i" -lt 60 ]; do
+        status_code=$(curl -sk -o /dev/null -w "%{http_code}" "$dashboard_url" || echo "000")
+        if [ "$status_code" = "200" ] || [ "$status_code" = "401" ] || [ "$status_code" = "403" ]; then
+            log INFO "Traefik dashboard is up (HTTP $status_code)."
+            return
+        fi
+        sleep 2
+        i=$((i + 1))
+    done
+
+    log ERROR "Traefik dashboard did not become ready in time."
+    exit 1
+}
+
 main() {
     load_dotenv
 
     log INFO "Initializing environment..."
 
+    sudo docker network create traefik-public
     setup_traefik
+
+    log INFO "Starting Traefik..."
+    (cd "$TRAEFIK_DIR" && sudo docker compose up -d)
+    wait_for_traefik_dashboard
+
     generate_backend_ssh_key
 
     log INFO "Initialization complete."
