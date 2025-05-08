@@ -23,6 +23,8 @@ generate_password() {
 }
 
 setup_traefik() {
+    create_traefik_network_if_needed
+    
     log INFO "Setting up Traefik reverse proxy in $TRAEFIK_DIR"
     mkdir -p "$TRAEFIK_DIR"
     ln -sf "$STACK_DIR/docker-compose.traefik.yml" "$TRAEFIK_DIR/docker-compose.yml"
@@ -72,13 +74,21 @@ wait_for_traefik_dashboard() {
     log ERROR "Traefik dashboard did not become ready in time."
     exit 1
 }
-
+create_traefik_network_if_needed() {
+    log INFO "Checking if the Traefik network exists..."
+    
+    if ! sudo docker network ls | grep -q "traefik-public"; then
+        log INFO "Creating Traefik network..."
+        sudo docker network create traefik-public
+    else
+        log INFO "Traefik network already exists."
+    fi
+}
 main() {
     load_dotenv
 
     log INFO "Initializing environment..."
 
-    sudo docker network create traefik-public
     setup_traefik
 
     log INFO "Starting Traefik..."
