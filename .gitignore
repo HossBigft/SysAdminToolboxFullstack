@@ -9,3 +9,5 @@ node_modules/
 !*.secret
 docker-stack.yml
 /ssh_agent/ssh_key
+*.key
+test_token_key
