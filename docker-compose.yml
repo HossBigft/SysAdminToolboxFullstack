@@ -132,6 +132,7 @@ services:
       - SSH_AUTH_SOCK=/ssh/agent.sock
     volumes:
       - ssh-socket:/ssh
+      - ./user_action_log/:/var/log/backend_app/
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/utils/health-check/"]
