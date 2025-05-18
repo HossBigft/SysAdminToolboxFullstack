@@ -12,7 +12,7 @@ TRAEFIK_DIR="$(cd "$STACK_DIR/.." && pwd)/traefik"
 log() {
     level="$1"
     shift
-    echo "[$level] $*"
+    echo "[$level] $*" >&2
 }
 
 generate_password() {
