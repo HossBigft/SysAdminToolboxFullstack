@@ -96,7 +96,7 @@ services:
     volumes:
       - ./backend/htmlcov:/app/htmlcov
       - ssh-socket:/ssh
-      - ./test_token_key/:/app/test_token_key/
+      - ./test_token_key/:/tmp/test_token_key/
     environment:
       SMTP_HOST: "mailcatcher"
       SMTP_PORT: "1025"
