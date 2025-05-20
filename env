@@ -13,7 +13,7 @@ FRONTEND_HOST=http://localhost:5173
 # Used by the frontend for api calls
 BACKEND_HOST=http://localhost:8000
 
-
+#local for debugging
 # Environment: local, staging, production
 ENVIRONMENT=local
 
