@@ -79,6 +79,7 @@ services:
 
   ssh-agent:
     build: ./ssh_agent
+    restart: always
     environment:
       SSH_AUTH_SOCK: /ssh/agent.sock
     volumes:
