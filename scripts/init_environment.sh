@@ -40,6 +40,7 @@ USERNAME=admin
 HASHED_PASSWORD='$HASHED_PASSWORD'
 DOMAIN=$DOMAIN
 EMAIL=admin@$DOMAIN
+ALLOWED_IPS=
 EOF
 
     log INFO "Traefik .env file created at $TRAEFIK_DIR/.env"
