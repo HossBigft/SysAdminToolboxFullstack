@@ -42,7 +42,9 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.tls=true
       - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.tls.certresolver=le
       - traefik.http.services.${STACK_NAME?Variable not set}-adminer.loadbalancer.server.port=8080
+      #Enable redirect and ip whitelisting
       - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.middlewares=https-redirect,allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.middlewares=allowipmiddleware
 
   prestart:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
@@ -158,8 +160,9 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.tls=true
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.tls.certresolver=le
 
-      # Enable redirection for HTTP and HTTPS
+      #Enable redirect and ip whitelisting
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect,allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.middlewares=allowipmiddleware
 
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
@@ -187,8 +190,9 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls=true
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls.certresolver=le
 
-      # Enable redirection for HTTP and HTTPS
+      #Enable redirect and ip whitelisting
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect,allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.middlewares=allowipmiddleware
 volumes:
   app-db-data:
   ssh-socket:
