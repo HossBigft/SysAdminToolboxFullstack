@@ -43,8 +43,8 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.tls.certresolver=le
       - traefik.http.services.${STACK_NAME?Variable not set}-adminer.loadbalancer.server.port=8080
       #Enable HTTPS redirect 
-      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.middlewares=https-redirect,allowipmiddleware
-      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.middlewares=allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-http.middlewares=https-redirect,ip-allowlist
+      - traefik.http.routers.${STACK_NAME?Variable not set}-adminer-https.middlewares=ip-allowlist
 
   prestart:
     image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
@@ -161,8 +161,8 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.tls.certresolver=le
 
       #Enable HTTPS redirect 
-      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect,allowipmiddleware
-      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.middlewares=allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-http.middlewares=https-redirect,ip-allowlist
+      - traefik.http.routers.${STACK_NAME?Variable not set}-backend-https.middlewares=ip-allowlist
 
   frontend:
     image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
@@ -191,8 +191,8 @@ services:
       - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.tls.certresolver=le
 
       #Enable HTTPS redirect 
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect,allowipmiddleware
-      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.middlewares=allowipmiddleware
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-http.middlewares=https-redirect,ip-allowlist
+      - traefik.http.routers.${STACK_NAME?Variable not set}-frontend-https.middlewares=ip-allowlist
 volumes:
   app-db-data:
   ssh-socket:
