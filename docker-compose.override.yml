@@ -81,7 +81,7 @@ services:
     build:
       context: ./backend
     # command: sleep infinity  # Infinite loop to keep container alive doing nothing
-    command: sh -c "python app/create_ssh_config.py && fastapi run --reload 'app/main.py'"
+    command: sh -c "fastapi run --reload 'app/main.py'"
     develop:
       watch:
         - path: ./backend
