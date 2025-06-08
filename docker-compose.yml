@@ -137,6 +137,8 @@ services:
     volumes:
       - ssh-socket:/ssh
       - ./user_action_log/:/var/log/backend_app/
+      # for testing
+      # - ./test_token_key/:/tmp/test_token_key/
 
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/core_utils/health-check/"]
