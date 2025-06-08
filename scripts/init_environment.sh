@@ -85,6 +85,47 @@ create_traefik_network_if_needed() {
         log INFO "Traefik network already exists."
     fi
 }
+
+setup_restart_unhealthy_time_service() {
+    log INFO "Setting up systemd timer to restart unhealthy containers..."
+
+    RESTART_SCRIPT="$STACK_DIR/scripts/restart_unhealthy_containers.sh"
+    SERVICE_FILE="/etc/systemd/system/restart-unhealthy.service"
+    TIMER_FILE="/etc/systemd/system/restart-unhealthy.timer"
+
+    if [ ! -f "$RESTART_SCRIPT" ]; then
+        log ERROR "Script not found: $RESTART_SCRIPT"
+        exit 1
+    fi
+
+    sudo tee "$SERVICE_FILE" > /dev/null <<EOF
+[Unit]
+Description=Restart unhealthy Docker containers
+
+[Service]
+Type=oneshot
+ExecStart=$RESTART_SCRIPT
+EOF
+
+    sudo tee "$TIMER_FILE" > /dev/null <<EOF
+[Unit]
+Description=Run restart-unhealthy.service every 2 minutes
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=2min
+AccuracySec=10s
+
+[Install]
+WantedBy=timers.target
+EOF
+
+    sudo systemctl daemon-reload
+    sudo systemctl enable --now restart-unhealthy.timer
+
+    log INFO "Systemd timer restart-unhealthy.timer enabled and running every 2 minutes."
+}
+
 main() {
     load_dotenv
 
@@ -97,6 +138,7 @@ main() {
     wait_for_traefik_dashboard
 
     generate_backend_ssh_key
+    setup_restart_unhealthy_time_service
 
     log INFO "Initialization complete."
 }
