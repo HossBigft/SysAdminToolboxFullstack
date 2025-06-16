@@ -54,6 +54,9 @@ generate_backend_ssh_key() {
 
     ssh-keygen -t ed25519 -C "$KEY_USER" -f ./ssh_agent/ssh_key/priv_ed25519.key -N ''
     log INFO "SSH key generated at ./ssh_agent/ssh_key/priv_ed25519.key"
+
+    chmod 600 ./ssh_agent/ssh_key/priv_ed25519.key
+    log INFO "Applied chmod 600 to ./ssh_agent/ssh_key/priv_ed25519.key"
 }
 
 wait_for_traefik_dashboard() {
