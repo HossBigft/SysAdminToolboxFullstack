@@ -23,7 +23,7 @@ STACK_NAME=sys-admin-toolbox
 
 # Backend, also always add https://FRONTEND_SUBDOMAIN.DOMAIN to this list
 BACKEND_CORS_ORIGINS="http://localhost,http://localhost:5173,https://localhost,https://localhost:5173,http://localhost.tiangolo.com"
-
+BACKEND_WORKERS=4
 # generate with python -c "import secrets; print(secrets.token_urlsafe(32))"
 SECRET_KEY=changethis
 FIRST_SUPERUSER=admin@example.com

@@ -134,6 +134,7 @@ services:
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD?Variable not set}
       - SENTRY_DSN=${SENTRY_DSN}
       - SSH_AUTH_SOCK=/ssh/agent.sock
+      - BACKEND_WORKERS=${BACKEND_WORKERS:-1}
     volumes:
       - ssh-socket:/ssh
       - ./user_action_log/:/var/log/backend_app/
