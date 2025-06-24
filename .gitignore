@@ -4,7 +4,7 @@ node_modules/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.env
+.env*
 .gitsecret/keys/random_seed
 !*.secret
 docker-stack.yml
