@@ -35,7 +35,7 @@ PLESK_SERVERS='{"plesk.example.com":["174.64.7.4"]}'
 # Server for DNS zone master lookups via ssh
 DNS_SLAVE_SERVERS='{"ns.example.com":["174.64.7.4"]}'
 # Hosts that will be used for internal resolving but not for SSH.
-HOSTS='{"example.com":["174.64.7.1"]}'
+ADDITIONAL_HOSTS='{"example.com":["174.64.7.1"]}'
 
 # Emails
 SMTP_HOST=
